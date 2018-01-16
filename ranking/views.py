@@ -17,7 +17,6 @@ def index(request):
 	return render(request, 'index.html',{'total':total})
 
 def update(request):
-	print 'called'
 	members = []
 	result = User.objects.filter()
 	for r in result:
