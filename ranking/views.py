@@ -9,12 +9,19 @@ from models import *
 
 def index(request):
 	total = []
+	ds = []
 	result = User.objects.filter().order_by('-correct')
 	for r in result:
 		percent = int(float(r.correct)/r.tries*100)
 		total.append((r.name,r.correct,r.tries,str(percent)+'%',r.last,r.status))
 	
-	return render(request, 'index.html',{'total':total})
+	result = User.objects.filter().order_by('-ds')
+	for r in result:
+		if r.ds>0:
+			percent = int(float(r.ds)/19*100)
+			ds.append((r.name,str(r.ds)+' / 19',str(percent)+'%'))
+
+	return render(request, 'index.html',{'total':total,'ds':ds})
 
 def update(request):
 	members = []
@@ -27,6 +34,16 @@ def update(request):
 		list = soup.find_all('blockquote')
 		status= list[0].string
 
+		problems=[]
+		ds = 0
+		list = soup.find_all(class_="problem_number")
+		for l in list:
+			problems.append(int(l.string))
+
+		for p in Problem.objects.filter():
+			if p.number in problems:
+				ds=ds+1
+
 		list = soup.find_all('td')
 		correct = list[1].string
 		tries = list[2].string
@@ -36,5 +53,5 @@ def update(request):
 		list = soup.find_all('td')
 		last = list[8].string
 
-		User(name=id,correct=correct,tries=tries,last=last,status=status).save()	
+		User(name=id,correct=correct,tries=tries,last=last,status=status,ds=ds).save()	
 	return render(request, 'index.html')

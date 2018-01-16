@@ -8,5 +8,9 @@ class User(models.Model):
     tries = models.IntegerField(default=0, null=True)
     last = models.CharField(max_length=30, default='', null=True)
     status = models.TextField(default='', null=True)
+    ds = models.IntegerField(default=0, null=True)
     def __str__(self):
         return self.name
+
+class Problem(models.Model):
+    number = models.IntegerField(primary_key=True)
