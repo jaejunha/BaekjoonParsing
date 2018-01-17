@@ -8,6 +8,7 @@ import requests
 from models import *
 
 def index(request):
+	problem = []
 	total = []
 	ds = []
 	result = User.objects.filter().order_by('-correct')
@@ -20,8 +21,12 @@ def index(request):
 		if r.ds>0:
 			percent = int(float(r.ds)/19*100)
 			ds.append((r.name,str(r.ds)+' / 19',str(percent)+'%'))
+	
+	result = Problem.objects.filter()
+	for r in result:
+		problem.append((r.number,r.title))
 
-	return render(request, 'index.html',{'total':total,'ds':ds})
+	return render(request, 'index.html',{'total':total,'ds':ds,'problem':problem})
 
 def update(request):
 	members = []

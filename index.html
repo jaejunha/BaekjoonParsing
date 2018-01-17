@@ -2,49 +2,141 @@
 {% load staticfiles %}
 <html>
 <head>
-<META HTTP-EQUIV="refresh" CONTENT="90">
+<META HTTP-EQUIV="refresh" CONTENT="180">
+<style>
+body{
+	color:#565656;
+}
+.logo{
+	display:block;
+	margin-left:auto;
+	margin-right:auto;
+}
+.content{
+	padding:10px;
+}
+table{
+	width:100%;
+	border: 1px solid #e8e8e8;
+	border-collapse: collapse;
+}
+td{
+	padding:5px;
+	padding-right:50px;
+	border: 1px solid #e8e8e8;
+}
+tr:nth-child(1){
+	color:#000000;
+}
+tr:nth-child(2n){
+	background:#fbfbfb;
+}
+a, a:hover{
+	color:#0000aa;
+	text-decoration:none;
+}
+b{
+	font-size:20pt;
+}
+</style>
 </head>
 <body>
-<h1>15 백준 프로젝트</h1>
-<h2>자료구조2</h2>
-<table>
-	<tr>
-		<td width="100px">랭킹</td>
-		<td width="200px">아이디</td>
-		<td width="200px">맞춘 문제</td>
-		<td width="200px">진행도</td>
-	</tr>
-	{% for d in ds %}
-	<tr>
-		<td>{{ forloop.counter }}</td>
-		<td>{{d.0}}</td>
-		<td>{{d.1}}</td>
-		<td>{{d.2}}</td>
-	</tr>
-	{% endfor %}
-</table>
-<h2>전체</h2>
-<table>
-	<tr>
-		<td width="100px">랭킹</td>
-		<td width="200px">아이디</td>
-		<td width="200px">맞춘 문제</td>
-		<td width="200px">제출</td>
-		<td width="200px">정답률</td>
-		<td width="200px">마지막 기록</td>
-		<td>상태</td>
-	</tr>
-	{% for t in total %}
-	<tr>
-		<td>{{ forloop.counter }}</td>
-		<td>{{t.0}}</td>
-		<td>{{t.1}}</td>
-		<td>{{t.2}}</td>
-		<td>{{t.3}}</td>
-		<td>{{t.4}}</td>
-		<td>{{t.5}}</td>
-	</tr>
-	{% endfor %}
-</table>
+<img class="logo" src="https://d2gd6pc034wcta.cloudfront.net/images/logo@2x.png">
+<div class="content">
+	3분 마다 기록이 업데이트 됩니다
+	<br>
+	<br>
+	<b>참여자</b>
+	<br>
+	{% if total %}
+		<b>{{ total|length}}</b>명의 인원이 참여 중
+		<br>
+		{% for t in total %}
+			<a href="https://www.acmicpc.net/user/{{t.0}}">
+			{% if forloop.last %}
+			<span>{{t.0}}</span>
+			{% else %}
+			<span>{{t.0}}, </span>
+			{% endif %}
+			</a>
+		{% endfor %}
+	{% endif %}
+	<br>
+	<br>
+	<b>자료구조2</b>
+	<br>
+	<a href="https://www.acmicpc.net/workbook/view/819">문제집 가기</a>
+	<br>
+	<table>
+		<tr>
+			<td>번호</td>
+			<td>제목</td>
+			<td>정답</td>
+			<td>진행도</td>
+		</tr>
+			{% for p in problem %}
+			<tr>
+				<td>{{p.0}}</td>
+				<td>
+					<a href="https://www.acmicpc.net/problem/{{p.0}}">
+					{{p.1}}
+					</a>
+				</td>
+				<td>?</td>
+				<td>?%</td>
+			</tr>	
+			{% endfor %}
+	<table>
+	<br>
+		<tr>
+			<td>랭킹</td>
+			<td>아이디</td>
+			<td>맞춘 문제</td>
+			<td>진행도</td>
+		</tr>
+		{% for d in ds %}
+		<tr>
+			<td>{{ forloop.counter }}</td>
+			<td>{{d.0}}</td>
+			<td>{{d.1}}</td>
+			<td>{{d.2}}</td>
+		</tr>
+		{% endfor %}
+	</table>
+	<br>
+	<b>전체</b>
+	<br>
+	<br>
+	<table>
+		<tr>
+			<td>랭킹</td>
+			<td>아이디</td>
+			<td>맞춘 문제</td>
+			<td>제출</td>
+			<td>정답률</td>
+			<td>마지막 기록</td>
+			<td>상태</td>
+		</tr>
+		{% for t in total %}
+		<tr>
+			<td>{{ forloop.counter }}</td>
+			<td>
+				<a href="https://www.acmicpc.net/user/{{t.0}}">
+				{{t.0}}
+				</a>
+			</td>
+			<td>
+				<a href="https://www.acmicpc.net/status/?user_id={{t.0}}&result_id=4">
+				{{t.1}}
+				</a>
+			</td>
+			<td>{{t.2}}</td>
+			<td>{{t.3}}</td>
+			<td>{{t.4}}</td>
+			<td>{{t.5}}</td>
+		</tr>
+		{% endfor %}
+	</table>
+</div>
 </body>
 </html>
