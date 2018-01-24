@@ -24,7 +24,11 @@ def index(request):
 	
 	result = Problem.objects.filter()
 	for r in result:
-		problem.append((r.number,r.title))
+		try:
+			counter = Solve.objects.get(number=r.number).count()[0]
+		except:
+			counter = 0
+		problem.append((r.number,r.title, counter, int(counter/float(100)*100)))
 
 	return render(request, 'index.html',{'total':total,'ds':ds,'problem':problem})
 
@@ -47,6 +51,7 @@ def update(request):
 
 		for p in Problem.objects.filter():
 			if p.number in problems:
+				Solve(name=id,number=p.number).save()	
 				ds=ds+1
 
 		list = soup.find_all('td')

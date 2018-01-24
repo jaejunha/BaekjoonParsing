@@ -15,3 +15,7 @@ class User(models.Model):
 class Problem(models.Model):
     number = models.IntegerField(primary_key=True)
     title = models.CharField(max_length=30, default='',null=True)
+
+class Solve(models.Model):
+    name = models.CharField(max_length=30)
+    number = models.IntegerField()
